@@ -235,4 +235,4 @@ function procesarClienteyCompra(nombre: string, edadCliente: number, montoCompra
   );
 }
 
-procesarClienteyCompra("     aStrID peña  ", 22, 250)
+procesarClienteyCompra("     aStrID mata  ", 55, 250)
