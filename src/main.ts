@@ -236,3 +236,109 @@ function procesarClienteyCompra(nombre: string, edadCliente: number, montoCompra
 }
 
 procesarClienteyCompra("     aStrID mata  ", 55, 250)
+
+
+
+/////////////////////////////mini-modulo 4 ts 
+
+//.forEach()
+
+const usuarios: string[] = ["Ana", "Luis", "Carlos", "Maria", "Sofia"];
+usuarios.forEach((user, index)=>{
+  console.log(`Enviando correo de bienvenida a ${user} (posicion: ${index})`);
+
+  
+});
+
+//.map()
+
+const precioBase: number[]= [100, 200, 300];
+const precioConIva = precioBase.map(precio => precio * 1.21);
+
+console.log("precios originales: " + precioBase);
+console.log("precios con IVA: " + precioConIva);
+
+// .filter()
+const edades :number[]= [15, 22, 18, 14 ,30];
+const mayoresDeEdad= edades.filter(edad => edad >= 18);
+console.log("edades filtradas:" + mayoresDeEdad);
+
+
+//.find()
+
+const codigosPostales: number[] = [1301, 1414, 1200, 1010, 1200]
+const primerValorAlto= codigosPostales.find(codigo => codigo>1300)
+
+console.log("primer codigo encontrado: "+ primerValorAlto);
+
+//sort()
+
+const frutas : string[] = ["Manzana", "Banana", "Zanahoria", "Pera", "Arandanos"]
+frutas.sort()
+console.log(frutas);
+
+const mixNumeros= [100, 20, 40]
+mixNumeros.sort((a,b)=>a-b);
+console.log(mixNumeros);
+
+//.includes()
+
+const hasAna= usuarios.includes("Ana");
+console.log(`Esta Ana en la lista? ${hasAna}`);
+
+
+///matrices array2D
+
+const matriz :string[][] = [
+  ["Alicia", "Bob", "Carlos"],   // fila 0
+  ["David", "Emma", "Fran"],     // fila 1
+  ["Grecia", "Enrique", "Iris"]  //  fila 2
+]
+
+console.log(matriz[1][2]);
+
+
+////////////////////////////////////////juego ta te ti /tres en raya
+
+let grillaJuego : string[][]= [];
+
+const totalFilas= 3;
+const totalColumnas= 3;
+
+for (let i =0; i<totalFilas; i++){
+  const fila:string[]=[]
+  for (let j=0; j<totalColumnas; j++){
+    fila.push("-");
+  }
+  grillaJuego.push(fila);
+}
+
+function imprimirGrilla(matriz :string[][]): void{
+console.log("estado del tablero");
+for (let i=0; i<matriz.length; i++){
+  console.log(matriz[i].join(" | "));
+  
+}
+
+}
+imprimirGrilla(grillaJuego)
+//primera jugada 
+grillaJuego[1][2] = "X"
+console.log("tu turno");
+
+imprimirGrilla(grillaJuego)
+//segunda jugada 
+
+grillaJuego[2][1] = "0"
+console.log("tu turno");
+
+imprimirGrilla(grillaJuego)
+
+
+//TERCERA  jugada 
+
+grillaJuego[1][1] = "X"
+console.log("tu turno");
+
+imprimirGrilla(grillaJuego)
+
