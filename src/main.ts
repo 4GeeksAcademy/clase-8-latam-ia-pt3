@@ -342,3 +342,119 @@ console.log("tu turno");
 
 imprimirGrilla(grillaJuego)
 
+//////////////////////ejemplo de estacionamiento
+// paso 1: crea una grilla 4x6 con todas las plazas libres (0).
+function initLot(): number[][] {
+  const filas = 4;
+  const columnas = 6;
+  const lot: number[][] = [];
+
+  for (let i = 0; i < filas; i++) {
+    const fila: number[] = [];
+    for (let j = 0; j < columnas; j++) {
+      fila.push(0);
+    }
+    lot.push(fila);
+  }
+
+  return lot;
+}
+
+// paso 2: imprime la grilla con etiquetas de fila/columna y estado visual (_ libre, X ocupada).
+function displayLot(lot: number[][]): void {
+  if (lot.length === 0 || lot[0].length === 0) {
+    console.log("Aparcamiento vacio");
+    return;
+  }
+
+  const encabezadoColumnas = lot[0]
+    .map((_, indiceColumna) => `C${indiceColumna}`)
+    .join(" ");
+
+  console.log(`   ${encabezadoColumnas}`);
+
+  for (let fila = 0; fila < lot.length; fila++) {
+    const visualFila = lot[fila]
+      .map((espacio) => (espacio === 0 ? "_" : "X"))
+      .join("  ");
+
+    console.log(`F${fila} ${visualFila}`);
+  }
+}
+
+// se inicializa el estacionamiento y se muestra su estado inicial.
+const parkingLot = initLot();
+console.log("Estado inicial del estacionamiento:", parkingLot);
+displayLot(parkingLot);
+
+// paso 3: reserva una plaza si esta libre; si no, informa que ya estaba ocupada.
+function reserveSpace(lot: number[][], row: number, col: number): string {
+  if (lot[row][col] === 1) {
+    return "Plaza ya ocupada";
+  }
+
+  lot[row][col] = 1;
+  return `Reservada F${row}C${col}`;
+}
+
+console.log(reserveSpace(parkingLot, 2, 4));
+displayLot(parkingLot);
+
+// pruebas de reserva para validar caso exitoso y caso duplicado.
+console.log(reserveSpace(parkingLot, 3, 4));
+console.log(reserveSpace(parkingLot, 2, 4)); //me sirve para validar cuando esta ocupado
+displayLot(parkingLot);
+
+// paso 4: ocupa mas plazas para luego calcular el resumen de disponibilidad.
+console.log(reserveSpace(parkingLot, 0, 0));
+console.log(reserveSpace(parkingLot, 0, 1));
+console.log(reserveSpace(parkingLot, 1, 0));
+console.log(reserveSpace(parkingLot, 1, 1));
+
+// cuenta plazas libres y ocupadas recorriendo toda la matriz.
+function countSpaces(lot: number[][]): { free: number; occupied: number } {
+  let free = 0;
+  let occupied = 0;
+
+  for (let fila = 0; fila < lot.length; fila++) {
+    for (let col = 0; col < lot[fila].length; col++) {
+      if (lot[fila][col] === 0) {
+        free++;
+      } else {
+        occupied++;
+      }
+    }
+  }
+
+  return { free, occupied };
+}
+
+const resumenEspacios = countSpaces(parkingLot);
+console.log(`Libres: ${resumenEspacios.free}  |  Ocupadas: ${resumenEspacios.occupied}`);
+
+displayLot(parkingLot);
+
+// paso 5: busca el primer par de plazas contiguas libres en una misma fila.
+function findAdjacentPair(lot: number[][]): string | null {
+  // Recorre todas las filas del estacionamiento de arriba hacia abajo.
+  for (let fila = 0; fila < lot.length; fila++) {
+    // Recorre columnas de izquierda a derecha.
+    // Se usa `length - 1` para poder mirar la columna actual y la siguiente sin salir del arreglo.
+    for (let col = 0; col < lot[fila].length - 1; col++) {
+      // Verifica si hay dos plazas libres seguidas (0, 0) en la misma fila.
+      if (lot[fila][col] === 0 && lot[fila][col + 1] === 0) {
+        // Devuelve de inmediato el primer par encontrado con formato de coordenadas.
+        return `Par contiguo : F${fila}C${col} y F${fila}C${col + 1}`;
+      }
+    }
+  }
+
+  // Si no existe ningun par contiguo libre en toda la matriz, devuelve null.
+  return null;
+}
+
+// muestra el primer par contiguo encontrado, o un mensaje si no existe.
+const parConsecutivoLibre = findAdjacentPair(parkingLot);
+// Si la funcion devuelve null, se muestra un mensaje alternativo con `??`.
+console.log(parConsecutivoLibre ?? "No hay par contiguo disponible");
+
