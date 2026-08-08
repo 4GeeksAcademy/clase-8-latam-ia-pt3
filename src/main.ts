@@ -458,3 +458,169 @@ const parConsecutivoLibre = findAdjacentPair(parkingLot);
 // Si la funcion devuelve null, se muestra un mensaje alternativo con `??`.
 console.log(parConsecutivoLibre ?? "No hay par contiguo disponible");
 
+////////////////////////////////////////////MODELAR LA VIDA REAL MEDIANTE OBJETOS
+
+
+const usuarioMalo={
+  nombre:"David",
+  direccion:{
+    ciudad:"Madrid",
+    calle:{
+      nombre:"Castellana",
+      numero: 25
+    }
+  }
+}
+
+const usuarioMalo1={
+  nombre:"Ana",
+  direccion:{
+    ciudad:"Barcelona",
+    calle:{
+      nombre:"Castellana"
+      }
+  }
+}
+
+// usamos interfaces para solucionar el error
+
+interface User{id:number; email:string};
+interface UserPersonalData {id:number, name:string; age:number};
+interface UserAddress {id:number, city:string};
+
+const users: User[]=[
+  {id:1, email: "david@123.com"},
+  {id:2, email: "ana@123.com"},
+];
+
+const usersPersonalData: UserPersonalData[]=[
+  {id:1, name: "david", age: 20},
+  {id:2, name: "ana", age:30},
+];
+
+const userAddress: UserAddress[]=[
+  {id:1, city: "Madrid"},
+  {id:2, city: "Barcelona"},
+];
+
+//trabajando con metodos:
+
+const bankAccount={
+  titular: "Ana",
+  balance: 500,
+  withdraw: function(amount:number){
+    if(amount<= this.balance){
+      this.balance -= amount; //actualiza el estado interno del objeto
+      return `Retiro exitoso. Nuevo saldo: ${this.balance}`;
+    }
+    return "fondos insuficiente";
+  }
+}
+console.log(bankAccount.withdraw(100));
+
+
+//clases 
+
+class Vehiculo {
+  //propiedad de la clase 
+  model: string;
+  year: number;
+  marca: string;
+  
+  //constructor: 
+  constructor(model:string, year:number, marca:string){
+    this.model= model;
+    this.year= year;
+    this.marca=marca;
+  }
+
+  //metodo de comportamiento
+  getInfo():string{
+    return `${this.marca} ${this.model} del año ${this.year} `
+  }
+}
+
+// creamos multiples objetos
+
+const auto1=new Vehiculo("Corolla", 2020, "Toyota");
+const auto2=new Vehiculo("Civic", 2010, "Honda");
+const auto3=new Vehiculo("Mustang", 2023, "Ford");
+
+console.log(auto1.getInfo());
+console.log(auto2.getInfo());
+console.log(auto3.getInfo());
+
+///ejemplo completo
+
+
+// usuario base
+class User{
+  id:number;
+  email:string;
+
+  constructor(id:number, email:string){
+    this.id = id;
+    this.email=email
+  }
+}
+
+// datos personales 
+
+class UserPersonalData{
+  id:number;
+  name:string;
+  age:number;
+
+  constructor(id:number, name:string, age:number){
+    this.id = id;
+    this.name=name;
+    this.age=age;
+  }
+  //metodo de comportamiento
+  getInfo():string{
+    return `Nombre: ${this.name} Edad: ${this.age}`
+  }
+
+}
+
+//direccion
+
+class UserAddress{
+  id:number;
+  city:string;
+  street: string;
+
+  constructor(id:number, city:string, street:string){
+    this.id = id;
+    this.city=city;
+    this.street=street;
+  }
+
+  //metodo de comportamiento
+  getInfo():string{
+    return `Ciudad: ${this.city} calle: ${this.street}`
+  }
+}
+
+const user1= new User (1, "david@123.com")
+const user2= new User (2, "ana@123.com")
+
+
+
+const personalData: UserPersonalData[] = [
+  new UserPersonalData(1,"david", 34),
+  new UserPersonalData(2,"ana", 24),
+]
+
+const address: UserAddress[] = [
+  new UserAddress(1,"madrid", "libertad"),
+  new UserAddress(2,"barcelona", " avenida principal")
+];
+
+
+
+//  uno a uno 
+//  uno a muchos
+//  muchos a muchos
+
+//actores - peliculas 
